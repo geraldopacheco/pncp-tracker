@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNCP Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding-top: 20px; }
+        .contract-card { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">PNCP Tracker</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Buscar no Portal Nacional de Contratações Públicas
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs mb-3" id="searchTypeTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="contratos-tab" data-bs-toggle="tab" data-bs-target="#contratos" type="button" role="tab" aria-controls="contratos" aria-selected="true">Contratos</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contratacoes-tab" data-bs-toggle="tab" data-bs-target="#contratacoes" type="button" role="tab" aria-controls="contratacoes" aria-selected="false">Contratações</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="searchTypeTabsContent">
+                            <div class="tab-pane fade show active" id="contratos" role="tabpanel" aria-labelledby="contratos-tab">
+                                <form id="searchContratosForm">
+                                    <input type="hidden" id="searchType" value="contratos">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="region" class="form-label">Região (UF) - Segure CTRL para selecionar múltiplos</label>
+                                                <select class="form-select" id="region" multiple size="5">
+                                                    <option value="">Todas</option>
+                                                    <option value="AC">Acre</option>
+                                                    <option value="AL">Alagoas</option>
+                                                    <option value="AP">Amapá</option>
+                                                    <option value="AM">Amazonas</option>
+                                                    <option value="BA">Bahia</option>
+                                                    <option value="CE">Ceará</option>
+                                                    <option value="DF">Distrito Federal</option>
+                                                    <option value="ES">Espírito Santo</option>
+                                                    <option value="GO">Goiás</option>
+                                                    <option value="MA">Maranhão</option>
+                                                    <option value="MT">Mato Grosso</option>
+                                                    <option value="MS">Mato Grosso do Sul</option>
+                                                    <option value="MG">Minas Gerais</option>
+                                                    <option value="PA">Pará</option>
+                                                    <option value="PB">Paraíba</option>
+                                                    <option value="PR">Paraná</option>
+                                                    <option value="PE">Pernambuco</option>
+                                                    <option value="PI">Piauí</option>
+                                                    <option value="RJ">Rio de Janeiro</option>
+                                                    <option value="RN">Rio Grande do Norte</option>
+                                                    <option value="RS">Rio Grande do Sul</option>
+                                                    <option value="RO">Rondônia</option>
+                                                    <option value="RR">Roraima</option>
+                                                    <option value="SC">Santa Catarina</option>
+                                                    <option value="SP">São Paulo</option>
+                                                    <option value="SE">Sergipe</option>
+                                                    <option value="TO">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="status" class="form-label">Status</label>
+                                                <select class="form-select" id="status">
+                                                    <option value="">Todos</option>
+                                                    <option value="1">Em Andamento</option>
+                                                    <option value="2">Concluído</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="keyword" class="form-label">Palavra-chave</label>
+                                                <input type="text" class="form-control" id="keyword" placeholder="Ex: tecnologia, construção, alimentos...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="startDate" class="form-label">Data Inicial</label>
+                                                <input type="date" class="form-control" id="startDate">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="endDate" class="form-label">Data Final</label>
+                                                <input type="date" class="form-control" id="endDate">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-flex align-items-end">
+                                            <div class="mb-3">
+                                                <button type="submit" class="btn btn-primary">Buscar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="contratacoes" role="tabpanel" aria-labelledby="contratacoes-tab">
+                                <form id="searchContratacoesForm">
+                                    <input type="hidden" id="searchType" value="contratacoes">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="region2" class="form-label">Região (UF) - Segure CTRL para selecionar múltiplos</label>
+                                                <select class="form-select" id="region2" multiple size="5">
+                                                    <option value="">Todas</option>
+                                                    <option value="AC">Acre</option>
+                                                    <option value="AL">Alagoas</option>
+                                                    <option value="AP">Amapá</option>
+                                                    <option value="AM">Amazonas</option>
+                                                    <option value="BA">Bahia</option>
+                                                    <option value="CE">Ceará</option>
+                                                    <option value="DF">Distrito Federal</option>
+                                                    <option value="ES">Espírito Santo</option>
+                                                    <option value="GO">Goiás</option>
+                                                    <option value="MA">Maranhão</option>
+                                                    <option value="MT">Mato Grosso</option>
+                                                    <option value="MS">Mato Grosso do Sul</option>
+                                                    <option value="MG">Minas Gerais</option>
+                                                    <option value="PA">Pará</option>
+                                                    <option value="PB">Paraíba</option>
+                                                    <option value="PR">Paraná</option>
+                                                    <option value="PE">Pernambuco</option>
+                                                    <option value="PI">Piauí</option>
+                                                    <option value="RJ">Rio de Janeiro</option>
+                                                    <option value="RN">Rio Grande do Norte</option>
+                                                    <option value="RS">Rio Grande do Sul</option>
+                                                    <option value="RO">Rondônia</option>
+                                                    <option value="RR">Roraima</option>
+                                                    <option value="SC">Santa Catarina</option>
+                                                    <option value="SP">São Paulo</option>
+                                                    <option value="SE">Sergipe</option>
+                                                    <option value="TO">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="status2" class="form-label">Status</label>
+                                                <select class="form-select" id="status2">
+                                                    <option value="">Todos</option>
+                                                    <option value="1">Em Andamento</option>
+                                                    <option value="2">Concluído</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="keyword2" class="form-label">Palavra-chave</label>
+                                                <input type="text" class="form-control" id="keyword2" placeholder="Ex: tecnologia, construção, alimentos...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="startDate2" class="form-label">Data Inicial</label>
+                                                <input type="date" class="form-control" id="startDate2">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="endDate2" class="form-label">Data Final</label>
+                                                <input type="date" class="form-control" id="endDate2">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-flex align-items-end">
+                                            <div class="mb-3">
+                                                <button type="submit" class="btn btn-primary">Buscar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="results" class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    Realize uma busca para ver os resultados.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Função para construir a URL de busca
+        function buildSearchUrl(type, region, status, keyword, startDate, endDate, page) {
+            let url = `/api/contracts/search/${type}?page=${page || 1}&`;
+            if (region) url += `region=${region}&`;
+            if (status) url += `status=${status}&`;
+            if (keyword) url += `keyword=${keyword}&`;
+            if (startDate) url += `startDate=${startDate}&`;
+            if (endDate) url += `endDate=${endDate}&`;
+            return url;
+        }
+        
+        document.getElementById('searchContratosForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const regions = Array.from(document.getElementById('region').selectedOptions).map(option => option.value).filter(Boolean);
+            const status = document.getElementById('status').value;
+            const keyword = document.getElementById('keyword').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            // Mostrar indicador de carregamento
+            document.getElementById('results').innerHTML = `
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        Carregando resultados...
+                    </div>
+                </div>
+            `;
+            
+            // Se não houver regiões selecionadas ou "Todas" estiver selecionada, busque sem filtro de região
+            if (regions.length === 0 || regions.includes("")) {
+                const url = buildSearchUrl('contratos', '', status, keyword, startDate, endDate, 1);
+                searchAndDisplay(url);
+                return;
+            }
+            
+            // Se houver múltiplas regiões, faça várias requisições e combine os resultados
+            try {
+                let allResults = [];
+                let totalRegistros = 0;
+                
+                // Fazer uma requisição para cada região
+                for (const region of regions) {
+                    const url = buildSearchUrl('contratos', region, status, keyword, startDate, endDate, 1);
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data.success && data.data) {
+                        allResults = [...allResults, ...data.data];
+                        totalRegistros += data.totalRegistros || 0;
+                    }
+                }
+                
+                // Exibir resultados combinados
+                displayCombinedResults('contratos', allResults, totalRegistros);
+            } catch (error) {
+                document.getElementById('results').innerHTML = `
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            Erro ao buscar resultados: ${error.message}
+                        </div>
+                    </div>
+                `;
+                console.error('Erro completo:', error);
+            }
+        });
+        
+        document.getElementById('searchContratacoesForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const regions = Array.from(document.getElementById('region2').selectedOptions).map(option => option.value).filter(Boolean);
+            const status = document.getElementById('status2').value;
+            const keyword = document.getElementById('keyword2').value;
+            const startDate = document.getElementById('startDate2').value;
+            const endDate = document.getElementById('endDate2').value;
+            
+            // Mostrar indicador de carregamento
+            document.getElementById('results').innerHTML = `
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        Carregando resultados...
+                    </div>
+                </div>
+            `;
+            
+            // Se não houver regiões selecionadas ou "Todas" estiver selecionada, busque sem filtro de região
+            if (regions.length === 0 || regions.includes("")) {
+                const url = buildSearchUrl('contratacoes', '', status, keyword, startDate, endDate, 1);
+                searchAndDisplay(url);
+                return;
+            }
+            
+            // Se houver múltiplas regiões, faça várias requisições e combine os resultados
+            try {
+                let allResults = [];
+                let totalRegistros = 0;
+                
+                // Fazer uma requisição para cada região
+                for (const region of regions) {
+                    const url = buildSearchUrl('contratacoes', region, status, keyword, startDate, endDate, 1);
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data.success && data.data) {
+                        allResults = [...allResults, ...data.data];
+                        totalRegistros += data.totalRegistros || 0;
+                    }
+                }
+                
+                // Exibir resultados combinados
+                displayCombinedResults('contratacoes', allResults, totalRegistros);
+            } catch (error) {
+                document.getElementById('results').innerHTML = `
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            Erro ao buscar resultados: ${error.message}
+                        </div>
+                    </div>
+                `;
+                console.error('Erro completo:', error);
+            }
+        });
+        
+        function searchAndDisplay(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => processResults(data))
+                .catch(error => {
+                    document.getElementById('results').innerHTML = `
+                        <div class="col-md-12">
+                            <div class="alert alert-danger">
+                                Erro ao buscar resultados: ${error.message}
+                            </div>
+                        </div>
+                    `;
+                    console.error('Erro completo:', error);
+                });
+        }
+        
+        function processResults(data) {
+            // Limpar resultados anteriores
+            document.getElementById('results').innerHTML = '';
+            
+            console.log('Dados recebidos:', data);
+            
+            // A estrutura correta é data.data (array de contratos/contratações)
+            const items = data.data || [];
+            const type = data.type || 'contratos'; // Tipo de busca (contratos ou contratações)
+            
+            if (data.success && items.length > 0) {
+                // Mostrar número total de resultados
+                document.getElementById('results').innerHTML = `
+                    <div class="col-md-12 mb-3">
+                        <div class="alert alert-info">
+                            Encontrados ${data.totalRegistros || items.length} registros. Mostrando página ${data.numeroPagina || 1} de ${data.totalPaginas || 1}.
+                        </div>
+                    </div>
+                `;
+                
+                // Mostrar resultados baseados no tipo de busca
+                if (type === 'contratos') {
+                    displayContratos(items);
+                } else if (type === 'contratacoes') {
+                    displayContratacoes(items);
+                }
+                
+                // Adicionar paginação se houver mais de uma página
+                if (data.totalPaginas > 1) {
+                    let paginationHtml = `
+                        <div class="col-md-12 mt-3">
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                    `;
+                    
+                    // Botão anterior
+                    const prevPage = Math.max(1, (data.numeroPagina || 1) - 1);
+                    paginationHtml += `
+                        <li class="page-item ${data.numeroPagina <= 1 ? 'disabled' : ''}">
+                            <a class="page-link" href="#" onclick="changePage('${type}', ${prevPage}); return false;">Anterior</a>
+                        </li>
+                    `;
+                    
+                    // Páginas numeradas
+                    const startPage = Math.max(1, (data.numeroPagina || 1) - 2);
+                    const endPage = Math.min((data.totalPaginas || 1), startPage + 4);
+                    
+                    for (let i = startPage; i <= endPage; i++) {
+                        paginationHtml += `
+                            <li class="page-item ${i === (data.numeroPagina || 1) ? 'active' : ''}">
+                                <a class="page-link" href="#" onclick="changePage('${type}', ${i}); return false;">${i}</a>
+                            </li>
+                        `;
+                    }
+                    
+                    // Botão próximo
+                    const nextPage = Math.min((data.totalPaginas || 1), (data.numeroPagina || 1) + 1);
+                    paginationHtml += `
+                        <li class="page-item ${data.numeroPagina >= data.totalPaginas ? 'disabled' : ''}">
+                            <a class="page-link" href="#" onclick="changePage('${type}', ${nextPage}); return false;">Próximo</a>
+                        </li>
+                    `;
+                    
+                    paginationHtml += `
+                                </ul>
+                            </nav>
+                        </div>
+                    `;
+                    
+                    document.getElementById('results').innerHTML += paginationHtml;
+                }
+            } else {
+                // Mostrar mensagem de que não há resultados
+                document.getElementById('results').innerHTML = `
+                    <div class="col-md-12">
+                        <div class="alert alert-warning">
+                            Nenhum resultado encontrado para os critérios de busca.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para exibir resultados combinados de múltiplas regiões
+        function displayCombinedResults(type, results, totalCount) {
+            // Limpar resultados anteriores
+            document.getElementById('results').innerHTML = '';
+            
+            if (results.length > 0) {
+                // Mostrar número total de resultados
+                document.getElementById('results').innerHTML = `
+                    <div class="col-md-12 mb-3">
+                        <div class="alert alert-info">
+                            Encontrados ${totalCount || results.length} registros de múltiplas regiões.
+                        </div>
+                    </div>
+                `;
+                
+                // Mostrar resultados baseados no tipo de busca
+                if (type === 'contratos') {
+                    displayContratos(results);
+                } else if (type === 'contratacoes') {
+                    displayContratacoes(results);
+                }
+            } else {
+                // Mostrar mensagem de que não há resultados
+                document.getElementById('results').innerHTML = `
+                    <div class="col-md-12">
+                        <div class="alert alert-warning">
+                            Nenhum resultado encontrado para os critérios de busca.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function displayContratos(contratos) {
+            contratos.forEach(contract => {
+                document.getElementById('results').innerHTML += `
+                    <div class="col-md-6">
+                        <div class="card contract-card">
+                            <div class="card-header">
+                                ${contract.objetoContrato || 'Sem título'}
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Órgão:</strong> ${(contract.orgaoEntidade && contract.orgaoEntidade.razaoSocial) || 'Não informado'}</p>
+                                <p><strong>Fornecedor:</strong> ${contract.nomeRazaoSocialFornecedor || 'Não informado'}</p>
+                                <p><strong>Número:</strong> ${contract.numeroContratoEmpenho || 'Não informado'}</p>
+                                <p><strong>Data de Assinatura:</strong> ${formatDate(contract.dataAssinatura) || 'Não informada'}</p>
+                                <p><strong>Valor:</strong> ${formatCurrency(contract.valorInicial) || 'Não informado'}</p>
+                                <a href="/api/contracts/details/${contract.numeroControlePNCP}" class="btn btn-primary btn-sm">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        function displayContratacoes(contratacoes) {
+            contratacoes.forEach(contratacao => {
+                document.getElementById('results').innerHTML += `
+                    <div class="col-md-6">
+                        <div class="card contract-card">
+                            <div class="card-header">
+                                ${contratacao.objetoCompra || 'Sem título'}
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Órgão:</strong> ${(contratacao.orgaoEntidade && contratacao.orgaoEntidade.razaoSocial) || 'Não informado'}</p>
+                                <p><strong>Processo:</strong> ${contratacao.processo || 'Não informado'}</p>
+                                <p><strong>Modalidade:</strong> ${contratacao.modalidadeNome || 'Não informada'}</p>
+                                <p><strong>Data de Publicação:</strong> ${formatDate(contratacao.dataPublicacaoPncp) || 'Não informada'}</p>
+                                <p><strong>Valor Estimado:</strong> ${formatCurrency(contratacao.valorTotalEstimado) || 'Não informado'}</p>
+                                <a href="/api/contracts/details/${contratacao.numeroControlePNCP}" class="btn btn-primary btn-sm">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Função para trocar de página
+        function changePage(type, page) {
+            let url;
+            
+            if (type === 'contratos') {
+                const region = document.getElementById('region').value;
+                const status = document.getElementById('status').value;
+                const keyword = document.getElementById('keyword').value;
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                
+                // Construir a URL da API com a nova página
+                url = buildSearchUrl('contratos', region, status, keyword, startDate, endDate, page);
+            } else {
+                const region = document.getElementById('region2').value;
+                const status = document.getElementById('status2').value;
+                const keyword = document.getElementById('keyword2').value;
+                const startDate = document.getElementById('startDate2').value;
+                const endDate = document.getElementById('endDate2').value;
+                
+                // Construir a URL da API com a nova página
+                url = buildSearchUrl('contratacoes', region, status, keyword, startDate, endDate, page);
+            }
+            
+            // Mostrar indicador de carregamento
+            document.getElementById('results').innerHTML = `
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        Carregando resultados...
+                    </div>
+                </div>
+            `;
+            
+            // Fazer a requisição
+            fetch(url)
+                .then(response => response.json())
+                .then(data => processResults(data))
+                .catch(error => {
+                    document.getElementById('results').innerHTML = `
+                        <div class="col-md-12">
+                            <div class="alert alert-danger">
+                                Erro ao buscar resultados: ${error.message}
+                            </div>
+                        </div>
+                    `;
+                    console.error('Erro completo:', error);
+                });
+        }
+        
+        // Função para formatar data
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+        
+        // Função para formatar valor monetário
+        function formatCurrency(value) {
+            if (!value && value !== 0) return '';
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+        }
+    </script>
+</body>
+</html>
